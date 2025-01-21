@@ -11,5 +11,6 @@ namespace BusinessObject
         public string? Address { get; set; }
         public int ResetPassword { get; set; }
         public bool AccountActive { get; set; }
+        public bool SocialAccount { get; set; }
     }
 }

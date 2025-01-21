@@ -15,5 +15,6 @@ namespace LBSWeb.Services.Account
         Task<ReponderModel<string>> ConfirmEmail(string token);
         Task<ReponderModel<AccountModel>> GetInformation(string username);
         Task<ReponderModel<string>> UpdateInformation(AccountModel account);
+        Task<ReponderModel<string>> LoginWithGoogle(string email,string fullname);
     }
 }

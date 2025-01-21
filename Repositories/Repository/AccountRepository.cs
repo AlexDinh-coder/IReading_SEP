@@ -184,7 +184,7 @@ namespace Repositories.Repository
 
             if (!long.TryParse(account.PhoneNumber,out long phoneNumber) || account.PhoneNumber.Length != 10)
             {
-                responder.Message = "Số điện thoại không đúng định dạng";
+                responder.Message = "Số điện thoại không đúng định dạng (10 chữ số)";
                 return responder;
             }
 
@@ -196,6 +196,7 @@ namespace Repositories.Repository
                 FullName = account.FullName,
                 PhoneNumber = account.PhoneNumber,
                 AccountActive = true,
+                SocialAccount = false,
                 ResetPassword = 0,
             };
             var result = await _userManager.CreateAsync(user, account.Password);
@@ -495,6 +496,75 @@ namespace Repositories.Repository
             responder.Message = "Gửi email thành công";
             //responder.Data = token;
             responder.IsSussess = true;
+            return responder;
+        }
+
+        public async Task<ReponderModel<string>> LoginWithGoogle(string email,string fullname)
+        {
+            var responder = new ReponderModel<string>();
+            var userExist = await _userManager.FindByEmailAsync(email);
+            if (userExist == null) 
+            {
+                var user = new Account
+                {
+                    Email = email,
+                    UserName = email,
+                    FullName = fullname,
+                    AccountActive = true,
+                    SocialAccount = true,
+                    EmailConfirmed = false,
+                    ResetPassword = 0
+                };
+                var pw = CreateRandomPassword();
+                var result = await _userManager.CreateAsync(user, pw);
+                try
+                {
+                    await _userManager.AddToRoleAsync(user, Role.User);
+                    responder.Data = await EncodeSha256(user, Role.User, true, user.ResetPassword);
+
+
+                    //Send Email 
+                    var template = await LBSDbContext.TemplateEmails.FirstOrDefaultAsync(c => c.Name == "EmailConfirm");
+                    if (template == null)
+                    {
+                        responder.Message = "Không có dữ liệu giao diện";
+                        return responder;
+                    }
+                    var webPageUrl = Environment.GetEnvironmentVariable("WEBPAGE_URL");
+                    template.Body = !string.IsNullOrEmpty(template.Body) ? template.Body.Replace("$${EmailConfirmLink}", webPageUrl + "/Account/ConfirmSuccess?token=" + responder.Data) : string.Empty;
+                    var emailModel = new EmailModel
+                    {
+                        Body = template.Body,
+                        Subject = template.Subject,
+                        To = new List<string>() { email }
+                    };
+                    var rs = await _emailSender.SendEmailAsync(emailModel);
+                    if (!rs)
+                    {
+                        responder.Message = "Lỗi gửi mail";
+                        return responder;
+                    }
+                    responder.Message = "Đăng nhập thành công";
+                    responder.IsSussess = true;
+                    return responder;
+                }
+                catch (Exception ex)
+                {
+                    responder.Message = ex.Message;
+                    return responder;
+                }
+            }
+
+            if (!userExist.AccountActive)
+            {
+                responder.Message = "Tài khoản đang bị khóa. Vui lòng báo với admin";
+                return responder;
+            }
+            var roles = await _userManager.GetRolesAsync(userExist);
+            responder.Message = "Đăng nhập thành công";
+            responder.IsSussess = true;
+            responder.Data = await EncodeSha256(userExist, string.Join(", ", roles), userExist.EmailConfirmed, userExist.ResetPassword);
+
             return responder;
         }
     }

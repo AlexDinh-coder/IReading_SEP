@@ -7,8 +7,22 @@ using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = "Cookies";
+    options.DefaultChallengeScheme = "Google";
+})
+//.AddCookie("Cookies")
+.AddGoogle("Google", options =>
+{
+    options.ClientId = builder.Configuration["GoogleKey:ClientId"].ToString();
+    options.ClientSecret = builder.Configuration["GoogleKey:ClientSecret"].ToString();
+    options.CallbackPath = "/signin-google";
+});
 
 builder.Services.AddHttpContextAccessor();
 

@@ -61,6 +61,22 @@ namespace LBSWeb.Controllers
 
 
         [Authorize]
+        public async Task<IActionResult> LoginWithGoogle()
+        {
+            var userClaims = User.Claims;
+            var email = User.FindFirst(ClaimTypes.Email).Value;
+            var fullname = User.FindFirst(ClaimTypes.Name).Value;
+            var result = await _accountService.LoginWithGoogle(email, fullname);
+            if (!result.IsSussess)
+            {
+                _notyf.Error(result.Message);
+                return Redirect("/");
+            }
+            HttpContext.Response.Cookies.Append("token", result.Data, new CookieOptions { MaxAge = TimeSpan.FromMinutes(45) });
+            return RedirectToAction("VerifyToken");
+        }
+
+        [Authorize]
         public async Task<IActionResult> AccountInformation()
         {
             var userName = User.FindFirst(ClaimTypes.NameIdentifier).Value;
