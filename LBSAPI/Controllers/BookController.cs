@@ -70,5 +70,38 @@ namespace LBSAPI.Controllers
             var result = await _bookRepository.GetAllBookByUser(userName);
             return result;
         }
+
+                [Route("GetBookChapter")]
+        [HttpGet]
+        public async Task<ReponderModel<BookChapter>> GetBookChapter(string id)
+        {
+            var result = await _bookRepository.GetBookChapter(id);
+            return result;
+        }
+
+        [Route("UpdateBookChapter")]
+        [HttpPost]
+        public async Task<ReponderModel<string>> UpdateBookChapter(BookChapter bookChapter)
+        {
+            var result = await _bookRepository.UpdateBookChapter(bookChapter);
+            return result;
+        }
+
+
+        [Route("GetListBookChapter")]
+        [HttpGet]
+        public async Task<ReponderModel<BookChapter>> GetListBookChapter(int bookId)
+        {
+            var result = await _bookRepository.GetListBookChapter(bookId);
+            return result;
+        }
+
+        [Route("DeleteChapterBook")]
+        [HttpGet]
+        public async Task<ReponderModel<string>> DeleteChapterBook(string id)
+        {
+            var result = await _bookRepository.DeleteChapterBook(id);
+            return result;
+        }
     }
 }

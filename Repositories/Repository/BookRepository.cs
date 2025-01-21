@@ -210,4 +210,128 @@ namespace Repositories.Repository
         }
 
     }
+
+            public async Task<ReponderModel<BookChapter>> GetBookChapter(string id)
+        {
+            var result = new ReponderModel<BookChapter>();
+            var filter = Builders<BookChapter>.Filter.Eq(c => c.Id, id);
+            result.Data = await _mongoContext.BookChapters.Find(filter).FirstOrDefaultAsync();
+            result.IsSussess = true;
+            return result;
+
+        }
+
+        public async Task<ReponderModel<string>> UpdateBookChapter(BookChapter bookChapter)
+        {
+            var filter = Builders<BookChapter>.Filter.Eq(c => c.Id, bookChapter.Id);
+            var result = new ReponderModel<string>();
+            if (bookChapter == null)
+            {
+                result.Message = "Data không hợp lệ";
+                return result;
+            }
+
+            if (string.IsNullOrEmpty(bookChapter.ChapterName))
+            {
+                result.Message = "Tên chương không hợp lệ";
+                return result;
+            }
+
+            if (string.IsNullOrEmpty(bookChapter.Content))
+            {
+                result.Message = "Nội dung không hợp lệ";
+                return result;
+            }
+
+            var bookChapterRow = await _mongoContext.BookChapters.Find(filter).FirstOrDefaultAsync();
+            if (bookChapterRow == null) 
+            {
+                result.Message = "Dữ liệu không tồn tại";
+                return result;
+            }
+            if (!string.IsNullOrEmpty(bookChapter.Summary) && bookChapterRow.Summary != bookChapter.Summary)
+            {
+                //var res = await _aIGeneration.TextGenerateToSpeech(bookChapter.Summary);
+                //if(res.IsSussess) bookChapter.AudioUrl = res.Data;
+            }
+
+            bookChapter.ModifyDate = DateTime.Now;
+
+
+            var update = Builders<BookChapter>.Update
+                        .Set(c => c.ChapterName, bookChapter.ChapterName)
+                        .Set(c => c.ChaperId, bookChapter.ChaperId)
+                        .Set(c => c.AudioUrl, bookChapter.AudioUrl)
+                        .Set(c => c.Summary, bookChapter.Summary)
+                        .Set(c => c.ModifyDate, bookChapter.ModifyDate)
+                        .Set(c => c.Content, bookChapter.Content)
+                        .Set(c => c.BookType, bookChapter.BookType)
+                        .Set(c => c.WordNo, bookChapter.WordNo)
+                        .Set(c => c.Price, bookChapter.Price);
+
+            await _mongoContext.BookChapters.UpdateOneAsync(filter,update);
+
+
+            result.Message = "Cập nhật thành công";
+            result.IsSussess = true;
+
+            return result;
+        }
+
+        public async Task<ReponderModel<string>> DeleteChapterBook(string id)
+        {
+            var filter = Builders<BookChapter>.Filter.Eq(c => c.Id, id);
+            var result = new ReponderModel<string>();
+            await _mongoContext.BookChapters.DeleteOneAsync(filter);
+            result.IsSussess = true;
+            result.Message = "Xóa thành công";
+            return result;
+        }
+
+                public async Task<ReponderModel<BookChapter>> GetListBookChapter(int bookId)
+        {
+            var result = new ReponderModel<BookChapter>();
+            var filter = Builders<BookChapter>.Filter.And(
+                            Builders<BookChapter>.Filter.Where(p => p.BookId >= bookId),
+                            Builders<BookChapter>.Filter.Where(p => p.Type != 3)
+                        );
+
+            var sort = Builders<BookChapter>.Sort.Descending(x => x.ChaperId);
+
+            var listBookChapter = await _mongoContext.BookChapters.Find(filter).Sort(sort).ToListAsync();
+
+            result.IsSussess = true;
+            result.DataList = listBookChapter;
+            return result;
+        }
+
+        private async Task<BookViewModel> GetNewChapterPulished(Book book)
+        {
+            try
+            {
+                var filter = Builders<BookChapter>.Filter.And(
+                                Builders<BookChapter>.Filter.Where(p => p.BookId == book.Id),
+                                Builders<BookChapter>.Filter.Where(p => p.Type != 3)
+                            );
+                var sort = Builders<BookChapter>.Sort.Descending(x => x.ModifyDate);
+                var listBookChapter = await _mongoContext.BookChapters.Find(filter).Sort(sort).ToListAsync();
+                var lastedBookChapter = listBookChapter.FirstOrDefault();
+
+                var bookViewModel = new BookViewModel
+                {
+                    BookStatus = BookStatusName.ListBookStatus[(int)book.Status],
+                    NewPulished = lastedBookChapter != null && !string.IsNullOrEmpty(lastedBookChapter.ChapterName) ? lastedBookChapter.ChapterName : string.Empty,
+                    NewPulishedDateTime = lastedBookChapter != null ? lastedBookChapter.ModifyDate.AddHours(7).ToString("dd MMM yyyy hh:mm:ss tt") : string.Empty,
+                };
+
+                return bookViewModel;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
 }

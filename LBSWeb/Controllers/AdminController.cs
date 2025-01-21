@@ -69,5 +69,60 @@ namespace LBSWeb.Controllers
             return RedirectToAction("ListCategories");
         }
 
+        [Authorize(Roles = $"{Role.Author}")]
+        [Route("{id}/CreateChapterBook")]
+        public async Task<IActionResult> CreateChapterBook(int id)
+        {
+            ViewBag.BookId = id;         
+            var result = await _bookService.GetBook(id);
+            var resultChapterBook = await _bookService.GetListBookChapter(id);
+
+            var startChapterId = resultChapterBook.DataList.Count + 1;
+
+            ViewBag.StartChapterId = startChapterId;
+
+            ViewBag.BookName = result.Data.Name;
+            return View(new BookChapter { BookId = id, ChaperId = startChapterId });
+        }
+
+        [Authorize(Roles = $"{Role.Author}")]
+        [Route("DeleteChapterBook/{chapterId}")]
+        public async Task<IActionResult> DeleteChapterBook(string chapterId)
+        {
+            var result = await _bookService.DeleteChapterBook(chapterId);
+            //if (result.IsSussess) _notyf.Success(result.Message);
+            return Json(result);
+        }
+
+        [Authorize(Roles = $"{Role.Author}")]
+        [Route("{id}/UpdateChapterBook/{chapterId}")]
+        public async Task<IActionResult> UpdateChapterBook(int id,string chapterId, string returnUrl)
+        {
+            ViewBag.BookId = id;
+            ViewBag.ReturnUrl = returnUrl;
+            var result = await _bookService.GetBook(id);
+            var resultChapterBook = await _bookService.GetBookChapter(chapterId);
+            ViewBag.BookName = result.Data.Name;
+            return View(resultChapterBook.Data);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = $"{Role.Author}")]
+        [Route("UpdateChapterBook")]
+        public async Task<IActionResult> UpdateChapterBook(BookChapter bookChapter)
+        {
+            var result = await _bookService.UpdateBookChapter(bookChapter);
+            if (result.IsSussess)
+            {
+                _notyf.Success(result.Message);
+                return RedirectToAction("ChapterBooks");
+            }
+            else
+            {
+                _notyf.Error(result.Message);
+                return View(bookChapter);
+            }
+        }
+
     }
 }

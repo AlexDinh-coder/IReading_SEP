@@ -132,4 +132,77 @@ namespace LBSWeb.Service.Book
 
 
     }
+
+            public async Task<ReponderModel<BookChapter>> GetBookChapter(string id)
+        {
+            var res = new ReponderModel<BookChapter>();
+            try
+            {
+                string url = PathUrl.BOOK_GET_BOOK_CHAPTER;
+                var param = new Dictionary<string, string>();
+                param.Add("id", id);
+                res = await _api.Get<ReponderModel<BookChapter>>(url, param);
+
+            }
+            catch (Exception ex)
+            {
+                res.Message = "Lỗi gọi api!";
+            }
+            return res;
+        }
+
+        public async Task<ReponderModel<string>> UpdateBookChapter(BookChapter model)
+        {
+            var res = new ReponderModel<string>();
+            if (model == null)
+            {
+                res.Message = "Thông tin không hợp lệ!";
+                return res;
+            }
+            try
+            {
+                string url = PathUrl.BOOK_UPDATE_CHAPTER;
+                res = await _api.Post<ReponderModel<string>>(url, model);
+
+            }
+            catch (Exception ex)
+            {
+                res.Message = "Lỗi gọi api!";
+            }
+            return res;
+        }
+
+        public async Task<ReponderModel<ReportModel>> ShortReport()
+        {
+            var res = new ReponderModel<ReportModel>();
+            try
+            {
+                string url = PathUrl.REPORT_SHORT;
+                res = await _api.Get<ReponderModel<ReportModel>>(url);
+
+            }
+            catch (Exception ex)
+            {
+                res.Message = "Lỗi gọi api!";
+            }
+            return res;
+        }
+
+        public async Task<ReponderModel<string>> DeleteChapterBook(string id)
+        {
+            var res = new ReponderModel<string>();
+            try
+            {
+                string url = PathUrl.BOOK_DELETE_CHAPTER;
+                var param = new Dictionary<string, string>();
+                param.Add("id", id.ToString());
+                res = await _api.Get<ReponderModel<string>>(url, param);
+
+            }
+            catch (Exception ex)
+            {
+                res.Message = "Lỗi gọi api!";
+            }
+            return res;
+        }
 }
