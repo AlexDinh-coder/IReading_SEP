@@ -117,11 +117,13 @@ header {
     padding-bottom:12px;
 }
 
+
+
 .menu-horizontal-btn {
     position: fixed !important;
     width: 40%;
     top: 16.5rem;
-    padding-left:16px;
+    padding-left: 16px;
     right: 0 !important;
     transition: 0.4s;
 }

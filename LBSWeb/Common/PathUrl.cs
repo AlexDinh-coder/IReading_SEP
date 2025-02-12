@@ -14,6 +14,7 @@
         public static string ACCOUNT_FORGOT_PASSWORD = "api/Account/ForgotPassword";
         public static string ACCOUNT_CHANGE_PASSWORD = "api/Account/ChangePassword";
         public static string ACCOUNT_RE_CONFIRM_EMAIL = "api/Account/ReConfirmEmail";
+        public static string ACCOUNT_LOGIN_WITH_GOOGLE = "api/Account/LoginWithGoogle";
 
     }
 

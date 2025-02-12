@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusinessObject.Migrations
 {
     [DbContext(typeof(LBSDbContext))]
-    [Migration("20250120073317_initSeedData")]
-    partial class initSeedData
+    [Migration("20250209111354_initApp")]
+    partial class initApp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,6 +85,9 @@ namespace BusinessObject.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("SocialAccount")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -109,18 +112,19 @@ namespace BusinessObject.Migrations
                         {
                             Id = "7d5002bd-f22f-4c7c-bce1-3d22eed213ff",
                             AccessFailedCount = 0,
-                            AccountActive = false,
-                            ConcurrencyStamp = "0b7a0b17-4347-412c-a013-8cd259cf7065",
+                            AccountActive = true,
+                            ConcurrencyStamp = "c920fb4b-bd51-4091-a626-07da1a5446d5",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Admin",
                             Gender = 0,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPnWiwbF3aEmRbFW4dM5U1MroibXB1ipm730NTMkhXjP16my3bkAYPpvm8fOSJ6kmg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECb5CWcjNkAamnwPOoQimbLScXASvfLeJxAlYQ5quDTtw2ca9vVA+SMQfYSH2vYo+w==",
                             PhoneNumberConfirmed = false,
                             ResetPassword = 0,
-                            SecurityStamp = "dcb3b98d-e3ac-4e57-934b-1611adad195e",
+                            SecurityStamp = "1276ab23-c7be-4eed-b7e3-79cffadccfb5",
+                            SocialAccount = false,
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
@@ -128,21 +132,132 @@ namespace BusinessObject.Migrations
                         {
                             Id = "7d5002bd-f22f-4c7c-bce1-3d22eff321ef",
                             AccessFailedCount = 0,
-                            AccountActive = false,
-                            ConcurrencyStamp = "15868085-72f7-49ea-b2c3-49663517adb1",
+                            AccountActive = true,
+                            ConcurrencyStamp = "f8ee5f9e-a1ac-4f44-a459-aa7c6dec0f9b",
                             Email = "staff@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Staff",
                             Gender = 0,
                             LockoutEnabled = false,
                             NormalizedUserName = "STAFF",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHtpOXnHh+a7WeIQrIepA57g9EDdV1rTkT62gFdGmaqHk+BFtAQCXaYith9njJVfSg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMNQnoogZjdWCWI7mux8v7Yd47QR+66re/KYO2RMTutygvlGVWVrKSbLwOhiTQKkIg==",
                             PhoneNumberConfirmed = false,
                             ResetPassword = 0,
-                            SecurityStamp = "6570a8a2-18e0-47d8-868f-34685f49ca3a",
+                            SecurityStamp = "13e08c21-9fc3-46ec-952c-89721af7774e",
+                            SocialAccount = false,
                             TwoFactorEnabled = false,
                             UserName = "staff"
                         });
+                });
+
+            modelBuilder.Entity("BusinessObject.Book", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AgeLimitType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("Poster")
+                        .HasColumnType("nvarchar(MAX)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Summary")
+                        .HasColumnType("nvarchar(MAX)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("Book", (string)null);
+                });
+
+            modelBuilder.Entity("BusinessObject.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(MAX)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Category", (string)null);
+                });
+
+            modelBuilder.Entity("BusinessObject.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(MAX)");
+
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("Comment", (string)null);
                 });
 
             modelBuilder.Entity("BusinessObject.TemplateEmail", b =>
@@ -165,6 +280,101 @@ namespace BusinessObject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TemplateEmail", (string)null);
+                });
+
+            modelBuilder.Entity("BusinessObject.UserBook", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("UserBook", (string)null);
+                });
+
+            modelBuilder.Entity("BusinessObject.UserTranscation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Payment")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PaymentType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("UserTranscation", (string)null);
+                });
+
+            modelBuilder.Entity("BusinessObject.UserTranscationBook", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PaymentStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("UserTranscationBook", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -330,6 +540,75 @@ namespace BusinessObject.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("BusinessObject.Book", b =>
+                {
+                    b.HasOne("BusinessObject.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BusinessObject.Account", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BusinessObject.Comment", b =>
+                {
+                    b.HasOne("BusinessObject.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BusinessObject.Account", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BusinessObject.UserBook", b =>
+                {
+                    b.HasOne("BusinessObject.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BusinessObject.Account", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BusinessObject.UserTranscation", b =>
+                {
+                    b.HasOne("BusinessObject.Account", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BusinessObject.UserTranscationBook", b =>
+                {
+                    b.HasOne("BusinessObject.Account", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
