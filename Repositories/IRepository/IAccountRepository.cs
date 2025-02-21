@@ -21,6 +21,7 @@ namespace Repositories.Repository
 
         Task<ReponderModel<AccountModel>> GetInformation(string username);
         Task<ReponderModel<string>> UpdateInformation(AccountModel account);
+        Task<ReponderModel<string>> LoginWithGoogle(string email,string fullname);
 
     }
 }

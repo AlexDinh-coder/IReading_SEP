@@ -231,5 +231,31 @@ namespace LBSWeb.Services.Account
             }
             return res;
         }
+
+        public async Task<ReponderModel<string>> LoginWithGoogle(string email, string fullname)
+        {
+            var res = new ReponderModel<string>();
+            var model = new AccountModel
+            {
+                Email = email,
+                FullName = fullname
+            };
+            if (model == null)
+            {
+                res.Message = "Thông tin không hợp lệ!";
+                return res;
+            }
+            try
+            {
+                string url = PathUrl.ACCOUNT_LOGIN_WITH_GOOGLE;
+                res = await _api.Post<ReponderModel<string>>(url, model);
+
+            }
+            catch (Exception ex)
+            {
+                res.Message = "Lỗi gọi api!";
+            }
+            return res;
+        }
     }
 }

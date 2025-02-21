@@ -35,7 +35,14 @@ namespace LBSAPI.Controllers
             var rs = await _accountRepository.ToggleLockUser(username,lockAccount);
             return rs;
         }
- 
+
+        [Route("LoginWithGoogle")]
+        [HttpPost]
+        public async Task<ReponderModel<string>> LoginWithGoogle(AccountModel model)
+        {
+            var rs = await _accountRepository.LoginWithGoogle(model.Email, model.FullName);
+            return rs;
+        }
 
         [Route("Register")]
         [HttpPost]

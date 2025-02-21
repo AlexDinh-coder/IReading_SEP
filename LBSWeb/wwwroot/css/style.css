@@ -8203,6 +8203,12 @@ h1, h2, h3, h4, h5,
   background-repeat: no-repeat;
   background-position: center center; }
 
+.loginGoogle {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
 .login-wrap {
   position: relative;
   color: rgba(255, 255, 255, 0.9); }
