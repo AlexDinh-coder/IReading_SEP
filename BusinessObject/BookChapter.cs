@@ -17,7 +17,10 @@ namespace BusinessObject
         public int ChaperId { get; set; }
         public string? Content { get; set; }
         public DateTime CreateDate { get; set; }
-        public int BookType { get; set; }
+        public DateTime ModifyDate { get; set; }
+        public BookType BookType { get; set; }
+        public int WordNo { get; set; }
+        public int Price { get; set; }
         public string? CreateBy { get; set; }
         public string? UserId { get; set; }
         public int BookId { get; set; }
