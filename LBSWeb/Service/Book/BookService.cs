@@ -72,5 +72,64 @@ namespace LBSWeb.Service.Book
             return res;
         }
 
+        public async Task<ReponderModel<string>> CreateBook(BookModel model)
+        {
+            var res = new ReponderModel<string>();
+            if (model == null)
+            {
+                res.Message = "Thông tin không hợp lệ!";
+                return res;
+            }
+            try
+            {
+                string url = PathUrl.BOOK_CREATE;
+                res = await _api.Post<ReponderModel<string>>(url, model);
+
+            }
+            catch (Exception ex)
+            {
+                res.Message = "Lỗi gọi api!";
+            }
+            return res;
+        }
+
+        public async Task<ReponderModel<BookViewModel>> GetAllBookByUser(string userName)
+        {
+            var res = new ReponderModel<BookViewModel>();
+            try
+            {
+                string url = PathUrl.BOOK_GET_BY_USER;
+                var param = new Dictionary<string, string>();
+                param.Add("userName", userName);
+                res = await _api.Get<ReponderModel<BookViewModel>>(url, param);
+
+            }
+            catch (Exception ex)
+            {
+                res.Message = "Lỗi gọi api!";
+            }
+            return res;
+        }
+
+
+        public async Task<ReponderModel<BusinessObject.Book>> GetBook(int id)
+        {
+            var res = new ReponderModel<BusinessObject.Book>();
+            try
+            {
+                string url = PathUrl.BOOK_GET;
+                var param = new Dictionary<string, string>();
+                param.Add("id", id.ToString());
+                res = await _api.Get<ReponderModel<BusinessObject.Book>>(url, param);
+
+            }
+            catch (Exception ex)
+            {
+                res.Message = "Lỗi gọi api!";
+            }
+            return res;
+        }
+
+
     }
 }

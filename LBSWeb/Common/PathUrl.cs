@@ -20,7 +20,11 @@
         public static string CATEGORY_GET_ALL = "api/Book/GetCategories";
         public static string CATEGORY_UPDATE = "api/Book/UpdateCategory";
         public static string CATEGORY_DELETE = "api/Book/DeleteCategory";
-
+        public static string BOOK_GET = "api/Book/GetBook";
+        public static string BOOK_CREATE = "api/Book/CreateBook";
+        public static string BOOK_GET_BY_USER = "api/Book/GetAllBookByUser";
+        public static string BOOK_CREATE_CHAPTER = "api/Book/CreateBookChapter";
+        public static string BOOK_GET_CHAPTER = "api/Book/GetListBookChapter";
     }
 
 }

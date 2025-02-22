@@ -3,7 +3,7 @@
 @{
     var claims = User;
     var jwtToken = ViewContext.HttpContext.Request.Cookies["token"];
-    if(string.IsNullOrEmpty(jwtToken) && User.Identity.IsAuthenticated)
+    if (string.IsNullOrEmpty(jwtToken) && User.Identity.IsAuthenticated)
     {
         ViewContext.HttpContext.Response.Redirect("/Account/Logout");
     }
@@ -15,7 +15,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>
-        @ViewData["Title"]
+        LBS
+        @* @ViewData["Title"] *@
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" asp-append-version="true" />
@@ -41,7 +42,7 @@
             </a>
         </div>
         <hr class="horizontal light mt-0 mb-2">
-        @if(claims != null)
+        @if (claims != null)
         {
             <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
                 <ul class="navbar-nav">
@@ -56,24 +57,36 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" id="ListPostCategoryId" href="/Admin/ListPostCategory">
+                            <a class="nav-link text-white" id="ListPostCategoryId" href="/Admin/ListCategories">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">table_view</i>
                                 </div>
-                                <span class="nav-link-text ms-1">Thể loại bài viết</span>
+                                <span class="nav-link-text ms-1">Thể loại</span>
                             </a>
                         </li>
                     }
-                    @if (claims.IsInRole("Staff") || claims.IsInRole("Admin"))
+                    @if (claims.IsInRole("Author") || claims.IsInRole("Admin"))
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-white" id="ListPostId" href="/Admin/ListPost">
+                            <a class="nav-link text-white" id="BooksId" href="/Admin/Books">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">table_view</i>
                                 </div>
-                                <span class="nav-link-text ms-1">Bài viết</span>
+                                <span class="nav-link-text ms-1">Đã đăng</span>
                             </a>
                         </li>
+                        @if (claims.IsInRole("Author"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" id="CreatBookId" href="/Admin/CreateBook">
+                                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                        <i class="material-icons opacity-10">table_view</i>
+                                    </div>
+                                    <span class="nav-link-text ms-1">Thêm mới</span>
+                                </a>
+                            </li>
+                        }
+
                     }
                     @if (claims.IsInRole("Admin"))
                     {
@@ -165,7 +178,7 @@
         </nav>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
-              @RenderBody()
+            @RenderBody()
         </div>
     </main>
     <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>

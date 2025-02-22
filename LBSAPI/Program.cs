@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Repositories.Repository;
 using Repositories;
 using Repositories.IRepository;
+using ImgurAPI.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,11 @@ builder.Services.AddDbContext<LBSDbContext>(options => options.UseSqlServer(buil
 
 
 builder.Services.AddSingleton<EmailSender, EmailSender>();
+builder.Services.AddScoped<ImageManager>();
+builder.Services.AddScoped<Imgur>(c =>
+{
+    return new Imgur("577b7aebc4e3478a45dcfe0a537c6026821873c1", "a706e97c0890496e29c9dd00ae7285fdef38d27f");
+});
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 

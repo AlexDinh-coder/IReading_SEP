@@ -4,6 +4,7 @@ using BusinessObject.BaseModel;
 using LBSWeb.Service.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace LBSWeb.Controllers
 {
@@ -28,6 +29,16 @@ namespace LBSWeb.Controllers
             //}
             var result = new ReportModel();
             return View(result);
+        }
+
+        [Authorize(Roles = $"{Role.Admin},{Role.Author}")]
+        [Route("Books")]
+        public async Task<IActionResult> Books()
+        {
+            var userName = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var res = await _bookService.GetAllBookByUser(userName);
+            ViewBag.Books = res.DataList;
+            return View();
         }
 
         [Authorize(Roles = $"{Role.Admin}")]
