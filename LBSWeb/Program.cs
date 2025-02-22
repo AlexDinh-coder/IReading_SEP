@@ -1,6 +1,7 @@
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
 using LBSWeb.API;
+using LBSWeb.Service.Book;
 using LBSWeb.Services.Account;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,7 @@ builder.Services.AddHttpContextAccessor();
 // Declare DI
 builder.Services.AddSingleton<WebAPICaller, WebAPICaller>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IBookService, BookService>();
 
 
 // Config Auto ValidateAntiforgery Token
