@@ -25,4 +25,10 @@
     <ProjectReference Include="..\Repositories\Repositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="ImgurAPI">
+      <HintPath>..\BusinessObject\Helper\ImgurAPI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

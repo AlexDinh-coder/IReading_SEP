@@ -293,8 +293,14 @@ namespace Repositories.Repository
 
 			List<Claim> claims = new List<Claim>();
 			claims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserName));
-			claims.Add(new Claim(ClaimTypes.Role, role == null ? "" : role));
-			claims.Add(new Claim(ClaimTypes.Name, user.FullName));
+
+            var roles = role.Split(",");
+            foreach (var role1 in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role1 == null ? "" : role1));
+            }
+
+            claims.Add(new Claim(ClaimTypes.Name, user.FullName));
 			claims.Add(new Claim("EmailConfirm", emailConfirm.ToString()));
 			claims.Add(new Claim("ResetPassword", resetPassword.ToString()));
 			claims.Add(new Claim(ClaimTypes.Email, user.Email));
