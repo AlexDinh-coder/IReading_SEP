@@ -17,6 +17,56 @@ namespace LBSWeb.Service.Book
             throw new NotImplementedException();
         }
 
+        public async Task<ReponderModel<string>> GenerateSummary(string input)
+        {
+            var model = new RequestModel
+            {
+                Data = input
+            };
+            var res = new ReponderModel<string>();
+            if (string.IsNullOrEmpty(input))
+            {
+                res.Message = "Cần nhập nội dung chương";
+                return res;
+            }
+            try
+            {
+                string url = PathUrl.BOOK_GENERATE_SUMMARY_CHAPTER;
+                res = await _api.Post<ReponderModel<string>>(url, model);
+
+            }
+            catch (Exception ex)
+            {
+                res.Message = "Lỗi gọi api!";
+            }
+            return res;
+        }
+
+        public async Task<ReponderModel<string>> GeneratePoster(string input)
+        {
+            var model = new RequestModel
+            {
+                Data = input
+            };
+            var res = new ReponderModel<string>();
+            if (string.IsNullOrEmpty(input))
+            {
+                res.Message = "Cần nhập tên truyện";
+                return res;
+            }
+            try
+            {
+                string url = PathUrl.BOOK_GENERATE_POSTER_CHAPTER;
+                res = await _api.Post<ReponderModel<string>>(url, model);
+
+            }
+            catch (Exception ex)
+            {
+                res.Message = "Lỗi gọi api!";
+            }
+            return res;
+        }
+
         public async Task<ReponderModel<Category>> GetCategories()
         {
             var res = new ReponderModel<Category>();

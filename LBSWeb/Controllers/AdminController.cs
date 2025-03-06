@@ -18,17 +18,36 @@ namespace LBSWeb.Controllers
             _bookService = bookService;
             _notyf = notyf;
         }
-        [Authorize(Roles = $"{Role.Admin},{Role.Author}")]
+        [Authorize(Roles = $"{Role.Admin},{Role.Author},{Role.Manager}")]
         [Route("")]
         [Route("Index")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            //if (User.IsInRole("Staff"))
-            //{
-            //    return RedirectToAction("ListPost");
-            //}
-            var result = new ReportModel();
-            return View(result);
+            if (User.IsInRole(Role.Author))
+            {
+                return RedirectToAction("Books");
+            }
+
+            var result = await _bookService.ShortReport();
+            return View(result.Data);
+        }
+
+        [Authorize(Roles = $"{Role.Author}")]
+        [HttpPost]
+        [Route("GenerateSummary")]
+        public async Task<IActionResult> GenerateSummary(string input)
+        {
+            var res = await _bookService.GenerateSummary(input);
+            return Json(res);
+        }
+        
+        [HttpPost]
+        [Authorize(Roles = $"{Role.Author}")]
+        [Route("GeneratePoster")]
+        public async Task<IActionResult> GeneratePoster(string input)
+        {
+            var result = await _bookService.GeneratePoster(input);
+            return Json(result);
         }
 
         [Authorize(Roles = $"{Role.Admin},{Role.Author}")]

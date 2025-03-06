@@ -29,6 +29,8 @@
         public static string BOOK_GET_BOOK_CHAPTER = "api/Book/GetBookChapter";
         public static string BOOK_CREATE_CHAPTER = "api/Book/CreateBookChapter";
         public static string BOOK_GET_CHAPTER = "api/Book/GetListBookChapter";
+        public static string BOOK_GENERATE_SUMMARY_CHAPTER = "api/Book/GenerateSummary";
+        public static string BOOK_GENERATE_POSTER_CHAPTER = "api/Book/GeneratePoster";
     }
 
 }

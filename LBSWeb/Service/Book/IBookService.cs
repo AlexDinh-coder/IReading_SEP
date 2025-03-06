@@ -16,5 +16,8 @@ namespace LBSWeb.Service.Book
         Task<ReponderModel<BookChapter>> GetBookChapter(string id);
         Task<ReponderModel<string>> UpdateBookChapter(BookChapter bookChapter);
         Task<ReponderModel<BookChapter>> GetListBookChapter(int bookId);
+        Task<ReponderModel<string>> GenerateSummary(string input);
+        Task<ReponderModel<string>> GeneratePoster(string input);
+        Task<ReponderModel<ReportModel>> ShortReport();
     }
 }

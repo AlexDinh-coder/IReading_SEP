@@ -333,5 +333,18 @@ namespace Repositories.Repository
             }
         }
 
+        public async Task<ReponderModel<string>> GenerateSummary(string input)
+        {
+            var result = await _aIGeneration.TextGenerate("Tạo tóm tắt tổi thiểu 200 từ được lấy dữ liệu từ đoạn text: " + input);
+            return result;
+        }
+
+        public async Task<ReponderModel<string>> GeneratePoster(string input)
+        {
+            var result = await _aIGeneration.TextGenerateToImage("Tạo ảnh với dữ liệu từ tên truyện: " + input);
+            return result;
+        }
+
+
 
 }

@@ -63,6 +63,23 @@ namespace LBSAPI.Controllers
             return result;
         }
 
+        [Route("GenerateSummary")]
+        [HttpPost]
+        public async Task<ReponderModel<string>> GenerateSummary(RequestModel model)
+        {
+            var result = await _bookRepository.GenerateSummary(model.Data);
+            return result;
+        }
+
+
+        [Route("GeneratePoster")]
+        [HttpPost]
+        public async Task<ReponderModel<string>> GeneratePoster(RequestModel model)
+        {
+            var result = await _bookRepository.GeneratePoster(model.Data);
+            return result;
+        }
+
         [Route("GetAllBookByUser")]
         [HttpGet]
         public async Task<ReponderModel<BookViewModel>> GetAllBookByUser(string userName)
