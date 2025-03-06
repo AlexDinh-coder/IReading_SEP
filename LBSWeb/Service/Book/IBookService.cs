@@ -19,5 +19,6 @@ namespace LBSWeb.Service.Book
         Task<ReponderModel<string>> GenerateSummary(string input);
         Task<ReponderModel<string>> GeneratePoster(string input);
         Task<ReponderModel<ReportModel>> ShortReport();
+        Task<ReponderModel<DraftModel>> GetDrafts(string userName);
     }
 }

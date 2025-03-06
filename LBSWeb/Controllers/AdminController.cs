@@ -33,6 +33,16 @@ namespace LBSWeb.Controllers
         }
 
         [Authorize(Roles = $"{Role.Author}")]
+        [Route("Drafts")]
+        public async Task<IActionResult> Drafts()
+        {
+            var userName = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await _bookService.GetDrafts(userName);
+            ViewBag.Drafts = result.DataList;
+            return View();
+        }
+
+        [Authorize(Roles = $"{Role.Author}")]
         [HttpPost]
         [Route("GenerateSummary")]
         public async Task<IActionResult> GenerateSummary(string input)

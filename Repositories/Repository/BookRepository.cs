@@ -23,6 +23,32 @@ namespace Repositories.Repository
             _imageManager = imageManager;
         }
 
+        public async Task<ReponderModel<DraftModel>> GetDrafts(string userName)
+        {
+            var result = new ReponderModel<DraftModel>();
+            var filter = Builders<BookChapter>.Filter.And(
+                Builders<BookChapter>.Filter.Where(p => p.CreateBy == userName),
+                Builders<BookChapter>.Filter.Where(p => p.Type == 3)
+            );
+            var sort = Builders<BookChapter>.Sort.Descending(x => x.ModifyDate);
+            var res = await _mongoContext.BookChapters.Find(filter).Sort(sort).ToListAsync();
+
+            foreach (var item in res)
+            {
+                var book = await _lBSDbContext.Books.FirstOrDefaultAsync(x => x.Id == item.BookId);
+                var draft = new DraftModel
+                {
+                    BookChapterId = item.Id,
+                    BookId = item.BookId,
+                    BookName = book != null && !string.IsNullOrEmpty(book.Name) ? book.Name : string.Empty,
+                    Content = item.Content,
+                    ChapterName = item.ChapterName
+                };
+                result.DataList.Add(draft);
+            }
+            return result;
+        }
+
         public async Task GetBookImages()
         {
             var bookImage = await _mongoContext.BookImages.Find(_ => true).ToListAsync();

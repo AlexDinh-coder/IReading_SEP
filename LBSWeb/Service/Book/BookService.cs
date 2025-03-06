@@ -42,6 +42,24 @@ namespace LBSWeb.Service.Book
             return res;
         }
 
+        public async Task<ReponderModel<DraftModel>> GetDrafts(string userName)
+        {
+            var res = new ReponderModel<DraftModel>();
+            try
+            {
+                string url = PathUrl.BOOK_GET_DRAFT;
+                var param = new Dictionary<string, string>();
+                param.Add("userName", userName);
+                res = await _api.Get<ReponderModel<DraftModel>>(url, param);
+
+            }
+            catch (Exception ex)
+            {
+                res.Message = "Lỗi gọi api!";
+            }
+            return res;
+        }
+
         public async Task<ReponderModel<string>> GeneratePoster(string input)
         {
             var model = new RequestModel

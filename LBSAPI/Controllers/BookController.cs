@@ -23,6 +23,22 @@ namespace LBSAPI.Controllers
             return true;
         }
 
+        [Route("GetDrafts")]
+        [HttpGet]
+        public async Task<ReponderModel<DraftModel>> GetDrafts(string userName)
+        {
+            var result = await _bookRepository.GetDrafts(userName);
+            return result;
+        }
+
+        [Route("GenerateTextToAudio")]
+        [HttpPost]
+        public async Task<ReponderModel<string>> GenerateTextToAudio(RequestModel model)
+        {
+            var result = await _bookRepository.GenerateTextToAudio(model.Data);
+            return result;
+        }
+        
         [Route("GetCategories")]
         [HttpGet]
         public async Task<ReponderModel<Category>> GetCategories()

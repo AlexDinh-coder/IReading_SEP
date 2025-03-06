@@ -47,6 +47,47 @@ namespace Repositories
 
             return result;
         }
+
+                public async Task<ReponderModel<string>> TextGenerateToSpeech(string input)
+        {
+            var result = new ReponderModel<string>();
+            AudioClient client = new AudioClient(
+                model: "tts-1",
+                apiKey: _apiKey
+            );
+
+
+            try
+            {
+                BinaryData speech = await client.GenerateSpeechAsync(
+                        text: input,
+                        voice: GeneratedSpeechVoice.Alloy
+                );
+                var outputPath = Path.Combine(AppContext.BaseDirectory, "Resource");
+                if (!Directory.Exists(outputPath))
+                {
+                    Directory.CreateDirectory(outputPath);
+                }
+
+                var filename = $"{Guid.NewGuid().ToString()}.mp3";
+
+                outputPath = Path.Combine(outputPath,filename);
+                using (FileStream stream = new FileStream(outputPath, FileMode.Create, FileAccess.Write))
+                {
+                    speech.ToStream().CopyTo(stream);
+                    result.Message = "Tạo thành công";
+                    result.Data = outputPath;
+                    result.IsSussess = true;
+                    stream.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Message = ex.Message;
+            }
+
+            return result;
+        }
         
         public async Task<ReponderModel<string>> TextGenerateToImage(string input)
         {

@@ -25,5 +25,6 @@ namespace Repositories.IRepository
         Task<ReponderModel<string>> DeleteChapterBook(string id);
         Task<ReponderModel<string>> GenerateSummary(string input);
         Task<ReponderModel<string>> GeneratePoster(string input);
+        Task<ReponderModel<DraftModel>> GetDrafts(string userName);
     }
 }
