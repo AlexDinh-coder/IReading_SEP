@@ -111,7 +111,7 @@ namespace Repositories
                     result.Message = "Không tạo được hình ảnh";
                     return result;
                 }
-                result.Message = "Tạo thành công";
+                result.Message = "Tạo hình ảnh thành công";
                 result.IsSussess = true;
                 result.Data = urlImage;
             }
