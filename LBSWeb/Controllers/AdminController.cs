@@ -1,5 +1,6 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using BusinessObject;
+using LBSWeb.Service.Information;
 using BusinessObject.BaseModel;
 using LBSWeb.Service.Book;
 using Microsoft.AspNetCore.Authorization;
@@ -11,13 +12,24 @@ namespace LBSWeb.Controllers
     public class AdminController : Controller
     {
         private readonly IBookService _bookService;
+        private readonly IInformationService _informationService;
         private readonly INotyfService _notyf;
 
-        public AdminController(IBookService bookService, INotyfService notyf)
+        public AdminController(IBookService bookService, INotyfService notyf,IInformationService informationService)
         {
+            _informationService = informationService;
             _bookService = bookService;
             _notyf = notyf;
         }
+
+        [Authorize(Roles = $"{Role.Admin},{Role.Author}")]
+        [Route("KnowledgeDetail/{id}")]
+        public async Task<IActionResult> KnowledgeDetail(int id)
+        {
+            var res = await _informationService.KnowledgeDetail(id);
+            return View(res.Data);
+        }
+
         [Authorize(Roles = $"{Role.Admin},{Role.Author},{Role.Manager}")]
         [Route("")]
         [Route("Index")]
@@ -30,6 +42,21 @@ namespace LBSWeb.Controllers
 
             var result = await _bookService.ShortReport();
             return View(result.Data);
+        }
+
+                [Authorize(Roles = $"{Role.Admin},{Role.Author}")]
+        [Route("BasicKnowledge")]
+        public IActionResult BasicKnowledge()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = $"{Role.Admin},{Role.Author}")]
+        [Route("GetListKnowledge")]
+        public async Task<IActionResult> GetListKnowledge(string search = "")
+        {
+            var res = await _informationService.BasicKnowledge(search);
+            return Json(res.DataList);
         }
 
         [Authorize(Roles = $"{Role.Author}")]

@@ -4,6 +4,7 @@ using BusinessObject;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusinessObject.Migrations
 {
     [DbContext(typeof(LBSDbContext))]
-    partial class LBSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250309105552_changetableConspectus")]
+    partial class changetableConspectus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,17 +113,17 @@ namespace BusinessObject.Migrations
                             Id = "7d5002bd-f22f-4c7c-bce1-3d22eed213ff",
                             AccessFailedCount = 0,
                             AccountActive = true,
-                            ConcurrencyStamp = "174b1c4d-3c0d-469b-b0ab-6220d9bb561d",
+                            ConcurrencyStamp = "90074dfd-d20c-43ee-aafb-c1406947772c",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Admin",
                             Gender = 0,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAENdcWfsphAdwsCHCiwtw6Uj0eOaQLozzdkZu+WaACQ1QseC3xujhnpSk9QYh1aPIrw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEP8nlwpr6+bBVx8BqsfzGGIlGoO7TIkwwRoczVujwy3KDxWLzCHjsDtYCpopnx8e4A==",
                             PhoneNumberConfirmed = false,
                             ResetPassword = 0,
-                            SecurityStamp = "abd9923a-1569-44e5-bb6f-42ea8e370933",
+                            SecurityStamp = "d5c444c1-4e6e-4694-8409-c638f65bee67",
                             SocialAccount = false,
                             TwoFactorEnabled = false,
                             UserName = "admin"
@@ -130,17 +133,17 @@ namespace BusinessObject.Migrations
                             Id = "7d5002bd-f22f-4c7c-bce1-3d22eed213dd",
                             AccessFailedCount = 0,
                             AccountActive = true,
-                            ConcurrencyStamp = "745c4bfe-321c-490d-b6c3-b66ea44607e9",
+                            ConcurrencyStamp = "5a763aaa-7fd2-4fa0-8ccb-f54eacd92b67",
                             Email = "manager@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Manager",
                             Gender = 0,
                             LockoutEnabled = false,
                             NormalizedUserName = "MANAGER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEE66c89vpelVvVrddfevuN3+HFwROba0PNMv5nHR3grqVwYCc/ZiuRxO3wYVMngVQQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENF2s1LL18SNLv+cYLYP9PWfbYnSA4yc0Mpeg9v7H7qqGC59cS7zzwdwfQXausWjuw==",
                             PhoneNumberConfirmed = false,
                             ResetPassword = 0,
-                            SecurityStamp = "902d6522-747b-4459-af04-7cc37b3658e6",
+                            SecurityStamp = "2c6ee9aa-2543-4683-99b7-f138ef9cbe9d",
                             SocialAccount = false,
                             TwoFactorEnabled = false,
                             UserName = "manager"
@@ -150,17 +153,17 @@ namespace BusinessObject.Migrations
                             Id = "7d5002bd-f22f-4c7c-bce1-3d22eff012ef",
                             AccessFailedCount = 0,
                             AccountActive = true,
-                            ConcurrencyStamp = "8f47d184-b03a-4ac7-8b45-6c8d86452e84",
+                            ConcurrencyStamp = "9eb122e3-b2ba-436f-9b82-b3edb64abc05",
                             Email = "author@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Author",
                             Gender = 0,
                             LockoutEnabled = false,
                             NormalizedUserName = "AUTHOR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDVzOQEo5tRa7snja7qhnW3ClCcFwTKLrFzDJTjP8B/i/aDjefd8dP34zRMrq6tS7g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELbJ2KHkq17DdaZXnmDc9lBKtNs7hevVYRrg7DOyg3i2dM1AxLPqxc/xzLFxtbs8zw==",
                             PhoneNumberConfirmed = false,
                             ResetPassword = 0,
-                            SecurityStamp = "e97c8e2b-541d-4917-8623-adf0fddbcf05",
+                            SecurityStamp = "4dfab49e-1019-4eac-b8e8-bf5d8754982d",
                             SocialAccount = false,
                             TwoFactorEnabled = false,
                             UserName = "author"
@@ -410,12 +413,6 @@ namespace BusinessObject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Author")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ChapterBookId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -448,30 +445,6 @@ namespace BusinessObject.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserReport", (string)null);
-                });
-
-            modelBuilder.Entity("BusinessObject.UserReportComment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("UserReportId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserReportId");
-
-                    b.ToTable("UserReportComments");
                 });
 
             modelBuilder.Entity("BusinessObject.UserTranscation", b =>
@@ -795,15 +768,6 @@ namespace BusinessObject.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BusinessObject.UserReportComment", b =>
-                {
-                    b.HasOne("BusinessObject.UserReport", "UserReport")
-                        .WithMany()
-                        .HasForeignKey("UserReportId");
-
-                    b.Navigation("UserReport");
                 });
 
             modelBuilder.Entity("BusinessObject.UserTranscation", b =>
