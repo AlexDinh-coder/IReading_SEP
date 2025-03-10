@@ -27,10 +27,18 @@
         public static string BOOK_CREATE_CHAPTER = "api/Book/CreateBookChapter";
         public static string BOOK_GET_CHAPTER = "api/Book/GetListBookChapter";
         public static string BOOK_GET_BOOK_CHAPTER = "api/Book/GetBookChapter";
-        public static string BOOK_CREATE_CHAPTER = "api/Book/CreateBookChapter";
-        public static string BOOK_GET_CHAPTER = "api/Book/GetListBookChapter";
         public static string BOOK_GENERATE_SUMMARY_CHAPTER = "api/Book/GenerateSummary";
         public static string BOOK_GENERATE_POSTER_CHAPTER = "api/Book/GeneratePoster";
+
+                //Information
+        public static string INFO_LIST_BASICKNOWLEDGE = "api/Information/BasicKnowledge";
+        public static string INFO_DETAIL_BASICKNOWLEDGE = "api/Information/KnowledgeDetail";
+        public static string INFO_LIST_NOTIFICATION = "api/Information/ListNotification";
+        public static string INFO_DETAIL_NOTIFICATION = "api/Information/NotificationDetail";
+        public static string INFO_LIST_CONSPECTUS = "api/Information/ListConspectus";
+        public static string INFO_UPDATE_CONSPECTUS = "api/Information/UpdateConspectus";
+        public static string INFO_DETAIL_CONSPECTUS = "api/Information/ConspectusDetail";
+        public static string INFO_DELETE_CONSPECTUS = "api/Information/DeleteConspectus";
     }
 
 }

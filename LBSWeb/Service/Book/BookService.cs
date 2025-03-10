@@ -17,6 +17,25 @@ namespace LBSWeb.Service.Book
             throw new NotImplementedException();
         }
 
+        public async Task<ReponderModel<string>> DeleteChapterBook(string id)
+        {
+            var res = new ReponderModel<string>();
+            try
+            {
+                string url = PathUrl.BOOK_DELETE_CHAPTER;
+                var param = new Dictionary<string, string>();
+                param.Add("id", id.ToString());
+                res = await _api.Get<ReponderModel<string>>(url, param);
+
+            }
+            catch (Exception ex)
+            {
+                res.Message = "Lỗi gọi api!";
+            }
+            return res;
+        }
+
+
         public async Task<ReponderModel<string>> GenerateSummary(string input)
         {
             var model = new RequestModel

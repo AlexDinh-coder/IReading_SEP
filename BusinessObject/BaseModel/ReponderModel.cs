@@ -14,4 +14,8 @@ namespace BusinessObject.BaseModel
         public T Data { get; set; }
         public List<T> DataList { get; set; } = new List<T>();
     }
+        public class RequestModel
+    {
+        public string Data { get; set; }
+    }
 }

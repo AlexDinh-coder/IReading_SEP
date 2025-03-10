@@ -22,6 +22,7 @@ namespace BusinessObject
             builder.Entity<UserTranscationBook>().ToTable("UserTranscationBook").HasKey(x => x.Id);
             builder.Entity<Category>().ToTable("Category").HasKey(x => x.Id);
             builder.Entity<Comment>().ToTable("Comment").HasKey(x => x.Id);
+            builder.Entity<BasicKnowledge>().ToTable("BasicKnowledge").HasKey(x => x.Id);
         }
 
         public virtual DbSet<TemplateEmail> TemplateEmails { get; set; }
@@ -31,5 +32,6 @@ namespace BusinessObject
         public virtual DbSet<UserTranscationBook> UserTranscationBooks { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<BasicKnowledge> BasicKnowledges { get; set; }
     }
 }
